@@ -1,0 +1,657 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&display=swap');
+
+/* =========================
+   COLOR & DESIGN VARIABLES
+========================= */
+:root {
+  --plum: #3B2540;
+  --plum-light: #5A3A61;
+
+  --ink: #211A22;
+  --muted: #7A7385;
+
+  --page-bg: #F3F6EE;
+  --white: #FFFFFF;
+  --border: #E1DED2;
+
+  --gold: #E8A23B;
+  --gold-dark: #C97F1E;
+
+  --green: #3E7C59;
+  --green-soft: #E6F1EA;
+
+  --red: #C1432A;
+  --red-soft: #FBE7E2;
+
+  --radius: 10px;
+  --soft-shadow: 0 1px 2px rgba(33, 26, 34, 0.06);
+}
+
+/* =========================
+   BASIC RESET
+========================= */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+}
+
+body {
+  background: var(--page-bg);
+  color: var(--ink);
+  font-family: 'Work Sans', system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+/* =========================
+   HEADINGS
+========================= */
+h1,
+h2,
+h3,
+.brand {
+  margin: 0;
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 600;
+}
+
+/* =========================
+   MAIN CONTAINER
+========================= */
+.container {
+  width: min(1080px, 100%);
+  margin-inline: auto;
+  padding-inline: 24px;
+}
+
+/* =========================
+   TOP NAVIGATION
+========================= */
+.topnav {
+  background: var(--plum);
+  color: var(--page-bg);
+}
+
+.topnav .container {
+  min-height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.topnav .brand {
+  color: #fff;
+  font-size: 22px;
+  letter-spacing: 0.2px;
+}
+
+.topnav .brand span {
+  color: var(--gold);
+}
+
+.topnav .role-tag {
+  margin-left: 10px;
+  padding-left: 10px;
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
+
+  color: #D8C9DB;
+  font-family: 'Work Sans', sans-serif;
+  font-size: 13px;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+/* =========================
+   GHOST BUTTON
+========================= */
+.btn-ghost {
+  padding: 8px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: var(--radius);
+
+  background: transparent;
+  color: #fff;
+
+  font-size: 14px;
+}
+
+.btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* =========================
+   COMMON BUTTONS
+========================= */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  padding: 11px 20px;
+  border: 0;
+  border-radius: var(--radius);
+
+  font-size: 15px;
+  font-weight: 600;
+
+  transition:
+    transform 0.05s ease,
+    background-color 0.15s ease;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+/* Primary */
+.btn-primary {
+  background: var(--gold);
+  color: #2B1B08;
+}
+
+.btn-primary:hover {
+  background: var(--gold-dark);
+}
+
+.btn-primary:disabled {
+  background: #E6DCC4;
+  color: #A79F86;
+  cursor: not-allowed;
+}
+
+/* Outline */
+.btn-outline {
+  border: 1.5px solid var(--plum);
+  background: transparent;
+  color: var(--plum);
+}
+
+.btn-outline:hover {
+  background: var(--plum);
+  color: #fff;
+}
+
+/* Green */
+.btn-basil {
+  background: var(--green);
+  color: #fff;
+}
+
+.btn-basil:hover {
+  background: #316749;
+}
+
+/* Button sizes */
+.btn-small {
+  padding: 7px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+.btn-block {
+  width: 100%;
+}
+
+/* =========================
+   CARDS
+========================= */
+.card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--soft-shadow);
+}
+
+/* =========================
+   SECTION HEADINGS
+========================= */
+.section-title {
+  margin-bottom: 4px;
+  font-size: 26px;
+}
+
+.section-sub {
+  margin-bottom: 24px;
+  color: var(--muted);
+  font-size: 14.5px;
+}
+
+/* =========================
+   STATUS BADGES
+========================= */
+.badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 100px;
+
+  font-size: 12.5px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.badge-placed {
+  background: #F1E9D8;
+  color: #8A6A1E;
+}
+
+.badge-preparing {
+  background: #FCE8D6;
+  color: #B85C10;
+}
+
+.badge-ready {
+  background: #E4E6FB;
+  color: #4740A8;
+}
+
+.badge-transit {
+  background: #DCEBFB;
+  color: #1C6DB0;
+}
+
+.badge-delivered {
+  background: var(--green-soft);
+  color: var(--green);
+}
+
+/* =========================
+   VEG / NON-VEG TAGS
+========================= */
+.tag-veg,
+.tag-nonveg {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+
+  font-size: 11.5px;
+  font-weight: 600;
+}
+
+.tag-veg {
+  color: var(--green);
+}
+
+.tag-nonveg {
+  color: var(--red);
+}
+
+.tag-dot {
+  width: 8px;
+  height: 8px;
+  display: inline-block;
+  border-radius: 2px;
+}
+
+.tag-veg .tag-dot {
+  background: var(--green);
+  border: 1px solid var(--green);
+}
+
+.tag-nonveg .tag-dot {
+  background: var(--red);
+  border: 1px solid var(--red);
+}
+
+/* =========================
+   FORM ELEMENTS
+========================= */
+label {
+  display: block;
+  margin-bottom: 6px;
+
+  color: var(--plum);
+  font-size: 13.5px;
+  font-weight: 600;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 11px 13px;
+
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+
+  background: #fff;
+  color: var(--ink);
+
+  font-family: inherit;
+  font-size: 15px;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--gold);
+}
+
+.field {
+  margin-bottom: 16px;
+}
+
+/* =========================
+   FORM MESSAGES
+========================= */
+.form-error,
+.form-note {
+  display: none;
+  margin-bottom: 16px;
+  padding: 10px 13px;
+  border-radius: 8px;
+  font-size: 13.5px;
+}
+
+.form-error {
+  background: var(--red-soft);
+  color: var(--red);
+}
+
+.form-note {
+  background: var(--green-soft);
+  color: var(--green);
+}
+
+.form-error.show,
+.form-note.show {
+  display: block;
+}
+
+/* =========================
+   FOOD IMAGE / THUMBNAIL
+========================= */
+.dish-thumb {
+  position: relative;
+
+  width: 100%;
+  aspect-ratio: 4 / 3;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+  border-radius: 8px;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--gold) 0%,
+      var(--red) 100%
+    );
+}
+
+.dish-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* =========================
+   NAV ICON
+========================= */
+.nav-icon {
+  width: 18px;
+  height: 18px;
+
+  display: inline-block;
+  object-fit: contain;
+  vertical-align: middle;
+}
+
+/* =========================
+   RESTAURANT BANNER
+========================= */
+.restaurant-banner {
+  position: relative;
+
+  height: 120px;
+  margin-bottom: 14px;
+
+  display: flex;
+  align-items: flex-end;
+
+  overflow: hidden;
+  border-radius: var(--radius);
+
+  background:
+    linear-gradient(
+      120deg,
+      var(--plum),
+      var(--plum-light)
+    );
+}
+
+.restaurant-banner img {
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+  opacity: 0.55;
+}
+
+.restaurant-banner::after {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  background:
+    linear-gradient(
+      0deg,
+      rgba(59, 37, 64, 0.85) 0%,
+      rgba(59, 37, 64, 0.15) 70%
+    );
+}
+
+.restaurant-banner h3 {
+  position: relative;
+  z-index: 1;
+
+  padding: 14px 18px;
+
+  color: #fff;
+  font-size: 20px;
+}
+
+/* =========================
+   EMPTY STATE
+========================= */
+.empty {
+  padding: 40px 20px;
+
+  border: 1.5px dashed var(--border);
+  border-radius: var(--radius);
+
+  color: var(--muted);
+  text-align: center;
+}
+
+.empty strong {
+  display: block;
+  margin-bottom: 4px;
+
+  color: var(--ink);
+  font-size: 16px;
+}
+
+/* =========================
+   UTILITY CLASSES
+========================= */
+.flex {
+  display: flex;
+}
+
+.flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.gap-8 {
+  gap: 8px;
+}
+
+.gap-12 {
+  gap: 12px;
+}
+
+.mt-24 {
+  margin-top: 24px;
+}
+
+.mt-32 {
+  margin-top: 32px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* =========================
+   SCROLLBAR
+========================= */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #D6D0C0;
+  border-radius: 10px;
+}
+
+/* =========================
+   KEYBOARD FOCUS
+========================= */
+:focus-visible {
+  outline: 2px solid var(--gold-dark);
+  outline-offset: 2px;
+}
+
+/* =========================
+   BILL / GST
+========================= */
+.cart-bill {
+  margin: 6px 0 8px;
+  padding-top: 4px;
+}
+
+.bill-row {
+  display: flex;
+  justify-content: space-between;
+
+  padding: 3px 0;
+
+  color: var(--muted);
+  font-size: 12.5px;
+}
+
+.bill-total {
+  margin-top: 4px;
+  padding-top: 7px;
+
+  border-top: 1px solid var(--border);
+  color: var(--ink);
+}
+
+.bill-total strong {
+  font-size: 14px;
+}
+
+.summary-grand {
+  margin-top: 5px;
+  padding-top: 8px;
+
+  border-top: 1px solid var(--border);
+
+  font-size: 14px;
+}
+
+/* =========================
+   FOODSYNC ADDITIONS
+========================= */
+
+.restaurant-banner-text {
+  position: relative;
+  z-index: 2;
+
+  padding: 14px 18px;
+  color: #fff;
+}
+
+.restaurant-banner-text h3 {
+  margin: 0 0 2px;
+  padding: 0;
+}
+
+.restaurant-banner-text span {
+  font-size: 12.5px;
+}
+
+.food-rating {
+  color: var(--gold-dark);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.sold-out {
+  opacity: 0.72;
+}
+
+/* =========================
+   ORDER STEPS
+========================= */
+.steps-labels {
+  display: flex;
+  justify-content: space-between;
+  gap: 4px;
+
+  margin: 14px 0 5px;
+
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.steps-labels span {
+  max-width: 95px;
+  text-align: center;
+}
+
+.steps-labels .done {
+  color: var(--green);
+  font-weight: 700;
+}
+
+.order-buttons {
+  margin-top: 10;
+}

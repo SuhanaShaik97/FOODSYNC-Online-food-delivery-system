@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>FOODSYNC — Order food</title>
+
+  <!-- New Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Nunito:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="css/style.css" />
+
+  <style>
+
+    /* =====================================
+       PAGE THEME
+    ===================================== */
+
+    :root {
+      --lavender: #6C4AB6;
+      --lavender-dark: #51348E;
+      --lavender-light: #EEE8FA;
+
+      --rose: #D9577A;
+      --rose-dark: #B83F61;
+      --rose-light: #FCE8EE;
+
+      --cream: #FFF9F2;
+      --white: #FFFFFF;
+
+      --text: #292333;
+      --muted: #7C7488;
+
+      --border: #E7DFEC;
+
+      --green: #4D8B6A;
+      --green-light: #E8F5ED;
+
+      --orange: #E79A4A;
+      --orange-light: #FFF1DE;
+
+      --shadow: 0 5px 18px rgba(72, 49, 105, 0.08);
+
+      --radius: 12px;
+    }
+
+
+    /* =====================================
+       BODY
+    ===================================== */
+
+    body {
+      background: var(--cream);
+      color: var(--text);
+
+      font-family: 'Nunito', sans-serif;
+    }
+
+
+    /* =====================================
+       HEADINGS
+    ===================================== */
+
+    h1,
+    h2,
+    h3,
+    h4,
+    .brand {
+      font-family: 'DM Serif Display', serif;
+    }
+
+
+    /* =====================================
+       PAGE CONTENT
+    ===================================== */
+
+    .page-body {
+      padding: 36px 0 80px;
+    }
+
+    .restaurant-group {
+      margin-bottom: 38px;
+    }
+
+    .restaurant-group h3 {
+      margin-bottom: 14px;
+      font-size: 20px;
+      color: var(--lavender-dark);
+    }
+
+
+    /* =====================================
+       MENU GRID
+    ===================================== */
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns:
+        repeat(auto-fill, minmax(240px, 1fr));
+
+      gap: 16px;
+    }
+
+    .menu-item {
+      padding: 17px;
+
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      background: var(--white);
+
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+
+      box-shadow: var(--shadow);
+
+      transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+    }
+
+    .menu-item:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(72, 49, 105, 0.12);
+    }
+
+    .menu-item .name {
+      font-size: 15.5px;
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    .menu-item .price {
+      font-size: 14px;
+      color: var(--rose);
+      font-weight: 700;
+    }
+
+    .menu-item .row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+
+    /* =====================================
+       QUANTITY STEPPER
+    ===================================== */
+
+    .stepper {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      padding: 4px 8px;
+
+      border: 1.5px solid var(--border);
+      border-radius: 9px;
+
+      background: var(--lavender-light);
+    }
+
+    .stepper button {
+      width: 22px;
+      height: 22px;
+
+      background: transparent;
+      border: none;
+
+      color: var(--lavender);
+      font-size: 17px;
+      font-weight: 800;
+    }
+
+    .stepper button:hover {
+      color: var(--rose);
+    }
+
+    .stepper span {
+      min-width: 16px;
+
+      text-align: center;
+
+      color: var(--text);
+      font-weight: 700;
+    }
+
+
+    /* =====================================
+       CART BUTTON
+    ===================================== */
+
+    .cart-toggle {
+      position: relative;
+
+      padding: 9px 18px;
+
+      background: var(--rose);
+      color: #FFFFFF;
+
+      border: none;
+      border-radius: 100px;
+
+      font-size: 14px;
+      font-weight: 800;
+
+      box-shadow: 0 3px 10px rgba(217, 87, 122, 0.25);
+    }
+
+    .cart-toggle:hover {
+      background: var(--rose-dark);
+    }
+
+    .cart-count {
+      display: inline-block;
+
+      margin-left: 6px;
+      padding: 1px 6px;
+
+      background: #FFFFFF;
+      color: var(--rose);
+
+      border-radius: 100px;
+
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+
+    /* =====================================
+       DRAWER BACKDROP
+    ===================================== */
+
+    .drawer-backdrop {
+      position: fixed;
+      inset: 0;
+
+      display: none;
+
+      background: rgba(41, 35, 51, 0.48);
+
+      z-index: 40;
+    }
+
+    .drawer-backdrop.open {
+      display: block;
+    }
+
+
+    /* =====================================
+       CART DRAWER
+    ===================================== */
+
+    .drawer {
+      position: fixed;
+
+      top: 0;
+      right: -420px;
+
+      width: 380px;
+      max-width: 92vw;
+      height: 100vh;
+
+      display: flex;
+      flex-direction: column;
+
+      background: var(--white);
+
+      z-index: 50;
+
+      transition: right 0.25s ease;
+
+      box-shadow: -6px 0 25px rgba(41, 35, 51, 0.16);
+    }
+
+    .drawer.open {
+      right: 0;
+    }
+
+
+    /* =====================================
+       DRAWER HEADER
+    ===================================== */
+
+    .drawer-head {
+      padding: 20px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      border-bottom: 1px solid var(--border);
+
+      background: var(--lavender-light);
+    }
+
+    .drawer-head h3 {
+      color: var(--lavender-dark);
+      font-size: 21px;
+    }
+
+    .drawer-close {
+      background: transparent;
+      border: none;
+
+      color: var(--muted);
+
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .drawer-close:hover {
+      color: var(--rose);
+    }
+
+
+    /* =====================================
+       DRAWER BODY
+    ===================================== */
+
+    .drawer-body {
+      flex: 1;
+
+      padding: 16px 20px;
+
+      overflow-y: auto;
+    }
+
+
+    /* =====================================
+       DRAWER FOOTER
+    ===================================== */
+
+    .drawer-foot {
+      padding: 18px 20px;
+
+      border-top: 1px solid var(--border);
+
+      background: #FFFCF8;
+    }
+
+
+    /* =====================================
+       CART ITEMS
+    ===================================== */
+
+    .cart-line {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      padding: 11px 0;
+
+      border-bottom: 1px dashed var(--border);
+    }
+
+    .cart-line .cl-name {
+      font-size: 14.5px;
+      font-weight: 700;
+    }
+
+    .cart-line .cl-sub {
+      font-size: 12.5px;
+      color: var(--muted);
+    }
+
+
+    /* =====================================
+       TOTAL
+    ===================================== */
+
+    .total-row {
+      display: flex;
+      justify-content: space-between;
+
+      margin-bottom: 14px;
+
+      color: var(--text);
+      font-size: 15px;
+    }
+
+    .total-row strong {
+      font-family: 'DM Serif Display', serif;
+      color: var(--rose);
+      font-size: 21px;
+    }
+
+
+    /* =====================================
+       ORDER CARD
+    ===================================== */
+
+    .order-card {
+      padding: 17px 18px;
+      margin-bottom: 13px;
+
+      background: var(--white);
+
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+
+      box-shadow: var(--shadow);
+    }
+
+    .order-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+
+      margin-bottom: 6px;
+    }
+
+    .order-items {
+      margin-bottom: 6px;
+
+      color: var(--muted);
+      font-size: 13.5px;
+    }
+
+    .order-meta {
+      color: var(--muted);
+      font-size: 12.5px;
+    }
+
+
+    /* =====================================
+       ORDER PROGRESS
+    ===================================== */
+
+    .steps-track {
+      display: flex;
+      gap: 5px;
+
+      margin-top: 10px;
+    }
+
+    .steps-track div {
+      flex: 1;
+
+      height: 5px;
+
+      border-radius: 10px;
+
+      background: var(--border);
+    }
+
+    .steps-track div.done {
+      background: var(--green);
+    }
+
+
+    /* =====================================
+       RESTAURANT BANNER
+    ===================================== */
+
+    .restaurant-banner {
+      position: relative;
+
+      height: 180px;
+
+      margin-bottom: 14px;
+
+      overflow: hidden;
+
+      border-radius: 15px;
+
+      background: var(--lavender-dark);
+
+      box-shadow: var(--shadow);
+    }
+
+    .restaurant-banner img {
+      width: 100%;
+      height: 100%;
+
+      object-fit: cover;
+
+      opacity: 0.72;
+    }
+
+    .restaurant-banner::after {
+      content: "";
+
+      position: absolute;
+      inset: 0;
+
+      background:
+        linear-gradient(
+          0deg,
+          rgba(42, 28, 63, 0.82),
+          rgba(42, 28, 63, 0.08)
+        );
+    }
+
+
+    /* =====================================
+       RESTAURANT INFORMATION
+    ===================================== */
+
+    .restaurant-banner-text {
+      position: absolute;
+
+      left: 20px;
+      bottom: 16px;
+
+      z-index: 2;
+
+      color: #FFFFFF;
+
+      text-shadow:
+        0 2px 6px rgba(0, 0, 0, 0.45);
+    }
+
+    .restaurant-banner-text h3 {
+      margin: 0 0 4px;
+
+      font-size: 24px;
+    }
+
+    .restaurant-banner-text span,
+    .food-rating {
+      font-size: 13px;
+    }
+
+    .food-rating {
+      color: #FFD27A;
+      font-weight: 800;
+    }
+
+
+    /* =====================================
+       ORDER SUMMARY
+    ===================================== */
+
+    .summary-box {
+      margin-top: 12px;
+      padding-top: 10px;
+
+      border-top: 1px solid var(--border);
+
+      font-size: 13px;
+    }
+
+    .summary-box summary {
+      cursor: pointer;
+
+      color: var(--lavender);
+      font-weight: 800;
+    }
+
+    .summary-content {
+      padding: 10px 0 2px;
+    }
+
+    .summary-line {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+
+      padding: 5px 0;
+    }
+
+
+    /* =====================================
+       RATING BOX
+    ===================================== */
+
+    .rating-box {
+      margin-top: 14px;
+      padding: 15px;
+
+      border: 1px solid var(--border);
+      border-radius: 11px;
+
+      background: var(--white);
+
+      box-shadow: 0 3px 12px rgba(72, 49, 105, 0.05);
+    }
+
+    .rating-box h4 {
+      margin: 0 0 4px;
+
+      color: var(--lavender-dark);
+
+      font-family: 'DM Serif Display', serif;
+      font-size: 18px;
+    }
+
+    .rating-box p {
+      margin: 0 0 10px;
+
+      color: var(--muted);
+      font-size: 12.5px;
+    }
+
+    .rating-box label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+
+      padding: 5px 0;
+
+      font-size: 13px;
+    }
+
+    .rating-box select {
+      padding: 5px 8px;
+
+      border: 1px solid var(--border);
+      border-radius: 7px;
+
+      background: var(--lavender-light);
+      color: var(--lavender-dark);
+    }
+
+
+    /* =====================================
+       RATING SUCCESS
+    ===================================== */
+
+    .rating-done {
+      margin-top: 12px;
+      padding: 10px;
+
+      border-radius: 8px;
+
+      background: var(--green-light);
+      color: var(--green);
+
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+
+    /* =====================================
+       SEARCH & FILTER
+    ===================================== */
+
+    .customer-tools {
+      display: flex;
+      gap: 10px;
+
+      margin-bottom: 22px;
+    }
+
+    .customer-tools input {
+      flex: 1;
+
+      background: var(--white);
+
+      border-color: var(--border);
+    }
+
+    .customer-tools select {
+      max-width: 230px;
+
+      background: var(--white);
+    }
+
+
+    /* =====================================
+       COUPON
+    ===================================== */
+
+    .coupon-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .coupon-row input {
+      flex: 1;
+    }
+
+    .coupon-row button {
+      flex-shrink: 0;
+    }
+
+    #couponMessage {
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+
+    /* =====================================
+       RESPONSIVE DESIGN
+    ===================================== */
+
+    @media (max-width: 900px) {
+
+      .menu-grid {
+        grid-template-columns:
+          repeat(2, minmax(0, 1fr));
+      }
+
+      .customer-tools {
+        flex-direction: column;
+      }
+
+      .customer-tools select {
+        max-width: none;
+      }
+    }
+
+
+    @media (max-width: 600px) {
+
+      .menu-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .drawer {
+        width: 100%;
+        max-width: 100%;
+      }
+
+      .restaurant-banner {
+        height: 160px;
+      }
+
+      .restaurant-banner-text h3 {
+        font-size: 21px;
+      }
+    }
+
+  </style>
+</head>
+
+
+<body>
+
+  <!-- =========================
+       TOP NAVIGATION
+  ========================== -->
+
+  <nav class="topnav">
+
+    <div class="container">
+
+      <div class="flex" style="align-items:center;">
+
+        <span class="brand">
+          FOODSYNC<span style="color:#FFD27A;">.</span>
+        </span>
+
+        <span class="role-tag">
+          Customer
+        </span>
+
+      </div>
+
+
+      <div class="nav-right">
+
+        <span
+          id="welcomeName"
+          style="font-size:14px;color:#E4DDF0;">
+        </span>
+
+
+        <button
+          class="cart-toggle"
+          id="cartToggle">
+
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/3144/3144456.png"
+            alt="Cart"
+            class="nav-icon"
+          />
+
+          Cart
+
+          <span
+            class="cart-count"
+            id="cartCount">
+            0
+          </span>
+
+        </button>
+
+
+        <button
+          class="btn-ghost"
+          onclick="logout()">
+
+          Log out
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </nav>
+
+
+  <!-- =========================
+       MAIN CONTENT
+  ========================== -->
+
+  <div class="container page-body">
+
+    <h1 class="section-title">
+      What are you craving today?
+    </h1>
+
+    <p class="section-sub">
+      Browse kitchens, check live ratings, and order from one restaurant at a time.
+    </p>
+
+
+    <!-- Search -->
+
+    <div class="customer-tools">
+
+      <input
+        id="menuSearch"
+        placeholder="Search food or restaurant..."
+      />
+
+      <select id="restaurantFilter">
+
+        <option value="all">
+          All restaurants
+        </option>
+
+      </select>
+
+    </div>
+
+
+    <!-- Menu -->
+
+    <div id="menuContainer"></div>
+
+
+    <!-- Orders -->
+
+    <div class="mt-32">
+
+      <h2
+        class="section-title"
+        style="font-size:22px;">
+
+        Your orders
+
+      </h2>
+
+      <p class="section-sub">
+        Live status of everything you've ordered.
+      </p>
+
+      <div id="ordersContainer"></div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================
+       CART DRAWER
+  ========================== -->
+
+  <div
+    class="drawer-backdrop"
+    id="drawerBackdrop">
+  </div>
+
+
+  <div
+    class="drawer"
+    id="drawer">
+
+
+    <!-- Drawer Header -->
+
+    <div class="drawer-head">
+
+      <h3>
+        Your cart
+      </h3>
+
+      <button
+        class="drawer-close"
+        id="drawerClose">
+
+        ✕
+
+      </button>
+
+    </div>
+
+
+    <!-- Drawer Content -->
+
+    <div
+      class="drawer-body"
+      id="drawerBody">
+    </div>
+
+
+    <!-- Drawer Footer -->
+
+    <div class="drawer-foot">
+
+
+      <!-- Bill -->
+
+      <div
+        id="cartBill"
+        class="cart-bill">
+      </div>
+
+
+      <!-- Total -->
+
+      <div class="total-row">
+
+        <span>
+          Grand Total
+        </span>
+
+        <strong id="cartTotal">
+          ₹0
+        </strong>
+
+      </div>
+
+
+      <!-- Coupon -->
+
+      <div class="field">
+
+        <label for="couponCode">
+          Coupon
+        </label>
+
+        <div class="coupon-row">
+
+          <input
+            id="couponCode"
+            placeholder="EAZY50 or WELCOME10"
+          />
+
+          <button
+            type="button"
+            class="btn btn-outline btn-small"
+            id="couponBtn">
+
+            Apply
+
+          </button>
+
+        </div>
+
+        <small id="couponMessage"></small>
+
+      </div>
+
+
+      <!-- Address -->
+
+      <div class="field">
+
+        <label for="deliveryAddress">
+          Delivery address
+        </label>
+
+        <input
+          type="text"
+          id="deliveryAddress"
+          placeholder="Flat, street, area"
+        />
+
+      </div>
+
+
+      <!-- Place Order -->
+
+      <button
+        class="btn btn-primary btn-block"
+        id="placeOrderBtn">
+
+        Place order
+
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================
+       JAVASCRIPT FILES
+  ========================== -->
+
+  <script src="js/data.js"></script>
+  <script src="js/images.js"></script>
+  <script src="js/customer.js"></script>
+
+</body>
+
+</html>

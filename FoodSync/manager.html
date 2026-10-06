@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>FOODSYNC — Manager dashboard</title>
+<link rel="stylesheet" href="css/style.css" />
+<style>
+  .page-body { padding: 32px 0 80px; }
+
+  .tab-row {
+    display: flex; gap: 6px; margin-bottom: 26px;
+    border-bottom: 1px solid var(--line);
+  }
+  .tab-btn {
+    background: none; border: none; padding: 10px 4px; margin-right: 22px;
+    font-size: 15px; font-weight: 600; color: var(--muted);
+    border-bottom: 2px solid transparent;
+  }
+  .tab-btn.active { color: var(--plum); border-color: var(--marigold); }
+
+  .order-row {
+    padding: 16px 18px; margin-bottom: 12px;
+    display: flex; justify-content: space-between; align-items: center; gap: 16px;
+  }
+  .order-row .info { flex: 1; min-width: 0; }
+  .order-row .items { font-size: 13.5px; color: var(--muted); margin: 3px 0; }
+  .order-row .meta { font-size: 12.5px; color: var(--muted); }
+  .order-actions { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+
+  .menu-table { width: 100%; border-collapse: collapse; }
+  .menu-table th {
+    text-align: left; font-size: 12.5px; text-transform: none; color: var(--muted);
+    padding: 8px 10px; border-bottom: 1px solid var(--line);
+  }
+  .menu-table td { padding: 10px; border-bottom: 1px solid var(--line); font-size: 14.5px; }
+  .menu-table tr:last-child td { border-bottom: none; }
+
+  .add-item-form {
+    padding: 20px; margin-bottom: 24px;
+  }
+  .add-item-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 0.9fr 0.7fr 0.8fr 1.4fr 1.4fr auto;
+    gap: 12px;
+    align-items: end;
+  }
+  @media (max-width: 900px) { .add-item-grid { grid-template-columns: 1fr 1fr; } }
+.mini-food { width:52px;height:42px;object-fit:cover;border-radius:7px;display:block; }
+  @media (max-width: 1100px) { .add-item-grid { grid-template-columns: 1fr 1fr; } }
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="container">
+    <div class="flex" style="align-items:center;">
+      <span class="brand">FOODSYNC<span style="color:var(--marigold)">.</span></span>
+      <span class="role-tag">Manager</span>
+    </div>
+    <div class="nav-right">
+      <span id="welcomeName" style="font-size:14px;color:#D8C9DB;"></span>
+      <button class="btn-ghost" onclick="logout()">Log out</button>
+    </div>
+  </div>
+</nav>
+
+<div class="container page-body">
+  <h1 class="section-title">Manager dashboard</h1>
+  <p class="section-sub">Restaurant: <strong id="managerRestaurantName"></strong> · Only this restaurant's orders are visible to you.</p>
+
+  <div class="stats-grid"><div class="stat-card"><span>Total orders</span><strong id="statOrders">0</strong></div><div class="stat-card"><span>Preparing</span><strong id="statPreparing">0</strong></div><div class="stat-card"><span>Ready</span><strong id="statReady">0</strong></div><div class="stat-card"><span>Restaurant sales</span><strong id="statSales">₹0</strong></div><div class="stat-card"><span>Menu rating</span><strong id="statRating">★ 0.0</strong></div></div>
+
+  <div class="tab-row">
+    <button class="tab-btn active" data-tab="orders">Orders</button>
+    <button class="tab-btn" data-tab="menu">Menu</button>
+  </div>
+
+  <div id="ordersTab">
+    <div id="ordersContainer"></div>
+  </div>
+
+  <div id="menuTab" class="hidden">
+    <form class="card add-item-form" id="addItemForm">
+      <div class="add-item-grid">
+        <div class="field" style="margin-bottom:0;">
+          <label>Dish name</label>
+          <input type="text" id="itemName" required placeholder="e.g. Veg Manchurian" />
+        </div>
+        <div class="field" style="margin-bottom:0;">
+          <label>Category</label>
+          <input type="text" id="itemCategory" placeholder="e.g. Main, Starter" />
+        </div>
+        <div class="field" style="margin-bottom:0;">
+          <label>Price (₹)</label>
+          <input type="number" id="itemPrice" required min="1" placeholder="180" />
+        </div>
+        <div class="field" style="margin-bottom:0;">
+          <label>Type</label>
+          <select id="itemType"><option value="veg">Veg</option><option value="nonveg">Non-veg</option></select>
+        </div>
+        <div class="field" style="margin-bottom:0;">
+          <label>Food image URL</label>
+          <input type="url" id="itemImage" required placeholder="https://..." />
+        </div>
+        <div class="field" style="margin-bottom:0;">
+          <label>Restaurant banner URL</label>
+          <input type="url" id="restaurantBanner" placeholder="https://..." />
+        </div>
+        <button type="submit" class="btn btn-primary">Add item</button>
+      </div>
+    </form>
+
+    <div class="card" style="padding: 6px 20px 20px;">
+      <table class="menu-table" id="menuTable">
+        <thead>
+          <tr><th>Image</th><th>Dish</th><th>Type</th><th>Price</th><th>Rating</th><th>Availability</th><th></th></tr>
+        </thead>
+        <tbody id="menuTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/manager.js"></script>
+</body>
+</html>

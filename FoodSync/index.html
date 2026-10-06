@@ -1,0 +1,570 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>FOODSYNC — Sign in</title>
+
+  <link rel="stylesheet" href="css/style.css" />
+
+  <style>
+    body {
+      background: #f8c8dc;
+    }
+
+    .auth-wrap {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .auth-hero {
+      background: #d63384;
+      color: #fff;
+      padding: 64px 56px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .auth-hero::before {
+      content: "";
+      position: absolute;
+      right: -120px;
+      top: -120px;
+      width: 340px;
+      height: 340px;
+      border-radius: 50%;
+      background: radial-gradient(
+        circle,
+        #ffb6d5 0%,
+        transparent 70%
+      );
+      opacity: 0.45;
+      z-index: 1;
+    }
+
+    #heroPhoto {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.25;
+    }
+
+    .auth-hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        160deg,
+        rgba(214, 51, 132, 0.96) 10%,
+        rgba(232, 62, 140, 0.78) 55%,
+        rgba(190, 35, 105, 0.94) 100%
+      );
+    }
+
+    .auth-hero > * {
+      position: relative;
+      z-index: 2;
+    }
+
+    .dish-strip {
+      display: flex;
+      gap: 10px;
+      margin: 28px 0 6px;
+    }
+
+    .dish-chip {
+      width: 58px;
+      height: 58px;
+      border-radius: 12px;
+      overflow: hidden;
+      background: linear-gradient(
+        135deg,
+        #ff9fc5 0%,
+        #e83e8c 100%
+      );
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      position: relative;
+    }
+
+    .dish-chip img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .auth-hero .brand {
+      font-size: 30px;
+      color: #fff;
+    }
+
+    .auth-hero .brand span {
+      color: #ffd1e3;
+    }
+
+    .auth-hero h1 {
+      font-size: 44px;
+      line-height: 1.12;
+      max-width: 420px;
+      font-weight: 600;
+      margin: 40px 0 16px;
+    }
+
+    .auth-hero p {
+      max-width: 380px;
+      color: #ffe5ef;
+      font-size: 15.5px;
+    }
+
+    .hero-foot {
+      display: flex;
+      gap: 28px;
+      font-size: 13.5px;
+      color: #ffd6e5;
+    }
+
+    .hero-foot b {
+      color: #fff;
+      display: block;
+      font-size: 20px;
+      font-family: "Fraunces", serif;
+    }
+
+    .auth-panel {
+      background: #fff0f6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 24px;
+    }
+
+    .auth-card {
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .role-tabs {
+      display: flex;
+      background: #fff;
+      border: 1px solid #f3b6cf;
+      border-radius: 100px;
+      padding: 4px;
+      margin-bottom: 28px;
+    }
+
+    .role-tab {
+      flex: 1;
+      text-align: center;
+      padding: 9px 6px;
+      border-radius: 100px;
+      border: none;
+      background: transparent;
+      font-size: 13.5px;
+      font-weight: 600;
+      color: #a45a7d;
+      cursor: pointer;
+    }
+
+    .role-tab.active {
+      background: #d63384;
+      color: #fff;
+    }
+
+    .auth-card h2 {
+      font-size: 24px;
+      margin-bottom: 2px;
+      color: #8f2459;
+    }
+
+    .auth-card .sub {
+      color: #a45a7d;
+      font-size: 14px;
+      margin-bottom: 22px;
+    }
+
+    .switch-line {
+      text-align: center;
+      font-size: 14px;
+      margin-top: 18px;
+      color: #a45a7d;
+    }
+
+    .switch-line a {
+      color: #d63384;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .demo-hint {
+      margin-top: 22px;
+      font-size: 12.5px;
+      color: #a45a7d;
+      background: #ffe0ed;
+      border: 1px dashed #efa4c4;
+      border-radius: 8px;
+      padding: 10px 12px;
+    }
+
+    .demo-hint code {
+      background: #ffd1e3;
+      padding: 1px 5px;
+      border-radius: 4px;
+    }
+
+    .field label {
+      color: #8f2459;
+    }
+
+    .field input,
+    .field select {
+      border: 1px solid #efb1ca;
+      background: #fff;
+      color: #7d1f50;
+    }
+
+    .field input:focus,
+    .field select:focus {
+      border-color: #d63384;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(214, 51, 132, 0.12);
+    }
+
+    .btn-primary {
+      background: #d63384;
+      border-color: #d63384;
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: #c22573;
+      border-color: #c22573;
+    }
+
+    .form-error {
+      color: #c22573;
+    }
+
+    @media (max-width: 860px) {
+      .auth-wrap {
+        grid-template-columns: 1fr;
+      }
+
+      .auth-hero {
+        padding: 40px 28px;
+      }
+
+      .auth-hero h1 {
+        font-size: 32px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="auth-wrap">
+
+    <!-- LEFT HERO SECTION -->
+    <div class="auth-hero">
+
+      <img
+        id="heroPhoto"
+        src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1200&q=80"
+        alt="Food on a table"
+      />
+
+      <div class="brand">
+        FOODSYNC<span>.</span>
+      </div>
+
+      <div>
+        <h1>One kitchen, one road, one doorstep.</h1>
+
+        <p>
+          FOODSYNC connects the people who cook, the people who deliver,
+          and the people who are hungry — on a single login built for all three.
+        </p>
+
+        <div class="dish-strip" id="dishStrip">
+
+          <div class="dish-chip">
+            <img
+              src="https://images.unsplash.com/photo-1585937421612-70a008356fbe?auto=format&fit=crop&w=200&q=80"
+              alt="Biryani"
+            />
+          </div>
+
+          <div class="dish-chip">
+            <img
+              src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=200&q=80"
+              alt="Salad bowl"
+            />
+          </div>
+
+          <div class="dish-chip">
+            <img
+              src="https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=200&q=80"
+              alt="Drink"
+            />
+          </div>
+
+          <div class="dish-chip">
+            <img
+              src="https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=200&q=80"
+              alt="Samosa"
+            />
+          </div>
+
+        </div>
+      </div>
+
+      <div class="hero-foot">
+
+        <div>
+          <b>9</b>
+          menu items live
+        </div>
+
+        <div>
+          <b>3</b>
+          roles, one platform
+        </div>
+
+        <div>
+          <b>24/7</b>
+          order tracking
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- RIGHT LOGIN/SIGNUP SECTION -->
+    <div class="auth-panel">
+
+      <div class="auth-card">
+
+        <!-- ROLE TABS -->
+        <div class="role-tabs" id="roleTabs">
+
+          <button
+            class="role-tab active"
+            data-role="customer"
+          >
+            Customer
+          </button>
+
+          <button
+            class="role-tab"
+            data-role="manager"
+          >
+            Manager
+          </button>
+
+          <button
+            class="role-tab"
+            data-role="delivery"
+          >
+            Delivery Partner
+          </button>
+
+        </div>
+
+
+        <!-- LOGIN FORM -->
+        <form id="loginForm">
+
+          <h2 id="loginTitle">
+            Welcome back
+          </h2>
+
+          <p class="sub" id="loginSub">
+            Sign in to order from your favourite kitchens.
+          </p>
+
+          <div
+            class="form-error"
+            id="loginError"
+          ></div>
+
+
+          <div class="field">
+
+            <label for="loginEmail">
+              Email
+            </label>
+
+            <input
+              type="email"
+              id="loginEmail"
+              required
+              placeholder="you@example.com"
+            />
+
+          </div>
+
+
+          <div class="field">
+
+            <label for="loginPassword">
+              Password
+            </label>
+
+            <input
+              type="password"
+              id="loginPassword"
+              required
+              placeholder="••••••••"
+            />
+
+          </div>
+
+
+          <button
+            type="submit"
+            class="btn btn-primary btn-block"
+          >
+            Sign in
+          </button>
+
+
+          <p class="switch-line">
+            New here?
+            <a href="#" id="showSignup">
+              Create an account
+            </a>
+          </p>
+
+
+          <div
+            class="demo-hint"
+            id="demoHint"
+          ></div>
+
+        </form>
+
+
+        <!-- SIGNUP FORM -->
+        <form
+          id="signupForm"
+          class="hidden"
+        >
+
+          <h2 id="signupTitle">
+            Create your account
+          </h2>
+
+          <p class="sub" id="signupSub">
+            Takes less than a minute.
+          </p>
+
+          <div
+            class="form-error"
+            id="signupError"
+          ></div>
+
+
+          <div class="field">
+
+            <label for="signupName">
+              Full name
+            </label>
+
+            <input
+              type="text"
+              id="signupName"
+              required
+              placeholder="Your name"
+            />
+
+          </div>
+
+
+          <div class="field">
+
+            <label for="signupEmail">
+              Email
+            </label>
+
+            <input
+              type="email"
+              id="signupEmail"
+              required
+              placeholder="you@example.com"
+            />
+
+          </div>
+
+
+          <div class="field">
+
+            <label for="signupPassword">
+              Password
+            </label>
+
+            <input
+              type="password"
+              id="signupPassword"
+              required
+              placeholder="At least 4 characters"
+            />
+
+          </div>
+
+
+          <div
+            class="field hidden"
+            id="managerRestaurantField"
+          >
+
+            <label for="signupRestaurant">
+              Restaurant
+            </label>
+
+            <select id="signupRestaurant"></select>
+
+          </div>
+
+
+          <button
+            type="submit"
+            class="btn btn-primary btn-block"
+          >
+            Create account
+          </button>
+
+
+          <p class="switch-line">
+            Already have an account?
+            <a href="#" id="showLogin">
+              Sign in
+            </a>
+          </p>
+
+        </form>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- JAVASCRIPT FILES -->
+  <script src="js/data.js"></script>
+  <script src="js/auth.js"></script>
+
+</body>
+</html>
+```
